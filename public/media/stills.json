@@ -1,0 +1,30 @@
+{
+  "still-stitch": {
+    "src": "/media/still-stitch-1280.webp",
+    "alt": "Two hands holding a crochet hook above the first crimson stitch"
+  },
+  "still-stitch-mid": {
+    "src": "/media/still-stitch-mid-1280.webp",
+    "alt": "Hands crocheting a small crimson disc with three balls of yarn"
+  },
+  "still-flower": {
+    "src": "/media/still-flower-1280.webp",
+    "alt": "A blush and ivory rose in progress, worked by hand"
+  },
+  "still-flower-tight": {
+    "src": "/media/still-flower-tight-1280.webp",
+    "alt": "Close view of the ivory and blush rose taking shape"
+  },
+  "still-purse": {
+    "src": "/media/still-purse-1280.webp",
+    "alt": "Blush and ivory rose crochet purse lifted by a pearl handle"
+  },
+  "still-purse-keychain": {
+    "src": "/media/still-purse-keychain-1280.webp",
+    "alt": "Ivory rose keychain with a pearl loop handle"
+  },
+  "still-collection": {
+    "src": "/media/still-collection-1280.webp",
+    "alt": "The full collection: red rose purse, blush rose purse and crochet flowers"
+  }
+}

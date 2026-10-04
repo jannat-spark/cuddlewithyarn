@@ -1,0 +1,120 @@
+{
+  "crimson-rose-purse": [
+    {
+      "src": "/media/shop/crimson-rose-purse-1-800.webp",
+      "srcSet": "/media/shop/crimson-rose-purse-1-400.webp 400w, /media/shop/crimson-rose-purse-1-800.webp 800w",
+      "alt": "Crimson rose crochet purse with a pearl handle, resting on a warm ivory surface",
+      "width": 576,
+      "height": 720
+    },
+    {
+      "src": "/media/shop/crimson-rose-purse-2-800.webp",
+      "srcSet": "/media/shop/crimson-rose-purse-2-400.webp 400w, /media/shop/crimson-rose-purse-2-800.webp 800w",
+      "alt": "Close detail of the spiralled crimson rose worked in tight crochet stitches",
+      "width": 376,
+      "height": 470
+    },
+    {
+      "src": "/media/shop/crimson-rose-purse-3-800.webp",
+      "srcSet": "/media/shop/crimson-rose-purse-3-400.webp 400w, /media/shop/crimson-rose-purse-3-800.webp 800w",
+      "alt": "The crimson rose purse turning to reveal the pearl strap and side seams",
+      "width": 576,
+      "height": 720
+    }
+  ],
+  "blush-pearl-rose-purse": [
+    {
+      "src": "/media/shop/blush-pearl-rose-purse-1-800.webp",
+      "srcSet": "/media/shop/blush-pearl-rose-purse-1-400.webp 400w, /media/shop/blush-pearl-rose-purse-1-800.webp 800w",
+      "alt": "Blush and ivory rose crochet purse finished with a strand of pearls",
+      "width": 552,
+      "height": 690
+    },
+    {
+      "src": "/media/shop/blush-pearl-rose-purse-2-800.webp",
+      "srcSet": "/media/shop/blush-pearl-rose-purse-2-400.webp 400w, /media/shop/blush-pearl-rose-purse-2-800.webp 800w",
+      "alt": "The blush rose purse lifted by its pearl handle against a cream backdrop",
+      "width": 544,
+      "height": 680
+    },
+    {
+      "src": "/media/shop/blush-pearl-rose-purse-3-800.webp",
+      "srcSet": "/media/shop/blush-pearl-rose-purse-3-400.webp 400w, /media/shop/blush-pearl-rose-purse-3-800.webp 800w",
+      "alt": "Detail of the blush rose layered over ivory petals with pearl trim",
+      "width": 432,
+      "height": 540
+    }
+  ],
+  "pearl-chain-rose-purse": [
+    {
+      "src": "/media/shop/pearl-chain-rose-purse-800.webp",
+      "srcSet": "/media/shop/pearl-chain-rose-purse-400.webp 400w, /media/shop/pearl-chain-rose-purse-800.webp 800w",
+      "alt": "Mini rose purse with a long pearl chain handle",
+      "width": 496,
+      "height": 620
+    }
+  ],
+  "crimson-rose-hair-tie": [
+    {
+      "src": "/media/shop/crimson-rose-hair-tie-800.webp",
+      "srcSet": "/media/shop/crimson-rose-hair-tie-400.webp 400w, /media/shop/crimson-rose-hair-tie-800.webp 800w",
+      "alt": "Crimson rose crochet hair tie on an ivory scrunchie band",
+      "width": 192,
+      "height": 240
+    }
+  ],
+  "blush-rose-hair-tie": [
+    {
+      "src": "/media/shop/blush-rose-hair-tie-800.webp",
+      "srcSet": "/media/shop/blush-rose-hair-tie-400.webp 400w, /media/shop/blush-rose-hair-tie-800.webp 800w",
+      "alt": "Blush crochet rose hair tie with a cream centre",
+      "width": 232,
+      "height": 290
+    }
+  ],
+  "ivory-pearl-rosette": [
+    {
+      "src": "/media/shop/ivory-pearl-rosette-800.webp",
+      "srcSet": "/media/shop/ivory-pearl-rosette-400.webp 400w, /media/shop/ivory-pearl-rosette-800.webp 800w",
+      "alt": "Ivory rosette finished with a pearl centre on a champagne band",
+      "width": 156,
+      "height": 195
+    }
+  ],
+  "ivory-daisy-scrunchie": [
+    {
+      "src": "/media/shop/ivory-daisy-scrunchie-800.webp",
+      "srcSet": "/media/shop/ivory-daisy-scrunchie-400.webp 400w, /media/shop/ivory-daisy-scrunchie-800.webp 800w",
+      "alt": "Ivory daisy crochet scrunchie on a champagne band",
+      "width": 184,
+      "height": 230
+    }
+  ],
+  "crimson-rose-bloom": [
+    {
+      "src": "/media/shop/crimson-rose-bloom-800.webp",
+      "srcSet": "/media/shop/crimson-rose-bloom-400.webp 400w, /media/shop/crimson-rose-bloom-800.webp 800w",
+      "alt": "Small crimson crochet rose bloom with a pearl button centre",
+      "width": 192,
+      "height": 240
+    }
+  ],
+  "pearl-chain-keychain": [
+    {
+      "src": "/media/shop/pearl-chain-keychain-800.webp",
+      "srcSet": "/media/shop/pearl-chain-keychain-400.webp 400w, /media/shop/pearl-chain-keychain-800.webp 800w",
+      "alt": "Ivory crochet rose keychain with a pearl loop handle",
+      "width": 760,
+      "height": 950
+    }
+  ],
+  "bunny-stitch-applique": [
+    {
+      "src": "/media/shop/bunny-stitch-applique-800.webp",
+      "srcSet": "/media/shop/bunny-stitch-applique-400.webp 400w, /media/shop/bunny-stitch-applique-800.webp 800w",
+      "alt": "Hand-finished bunny stitch applique in ivory with a crimson rose",
+      "width": 264,
+      "height": 330
+    }
+  ]
+}

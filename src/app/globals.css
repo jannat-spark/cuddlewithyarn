@@ -1,0 +1,938 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   Cuddle With Yarn — design tokens
+   Sampled from the supplied identity artwork: the paper is the logo's own
+   off-white (#f9f3e4) and the ink is its brown (#4a2a21). Rich crimson, blush,
+   cream, warm ivory, champagne, deep wine sit on top of that pair.
+   No glassmorphism, no soft rounded cards, no generic gradients.
+   ========================================================================== */
+
+@theme {
+  --color-wine-950: #1c040b;
+  --color-wine-900: #2a0710;
+  --color-wine-800: #3d0c1b;
+  --color-wine-700: #571026;
+  --color-wine-600: #6d1330;
+
+  --color-crimson-700: #7a0c1e;
+  --color-crimson-600: #9c1028;
+  --color-crimson-500: #b81532;
+  --color-crimson-400: #d33f56;
+
+  --color-rose-400: #e2a0a4;
+  --color-blush-300: #efc4bf;
+  --color-blush-200: #f6dcd6;
+  --color-blush-100: #fbeae4;
+
+  --color-champagne-400: #d9bd97;
+  --color-champagne-300: #e7d4b6;
+  --color-champagne-200: #f0e4cf;
+
+  /* The brand pair. `paper` is the exact background the logo artwork was
+     flattened onto, so the wordmark has no seam on any light surface. */
+  --color-paper: #f9f3e4;
+  --color-paper-100: #fdf9f0;
+  --color-paper-200: #f2e9d6;
+  --color-paper-300: #e9dcc2;
+
+  --color-brand-900: #33190f;
+  --color-brand-700: #4a2a21;
+  --color-brand-500: #6b4235;
+  --color-brand-300: #9c7264;
+
+  /* Retained names, repointed at the brand paper so no surface is ever white. */
+  --color-cream-100: #f2e9d6;
+  --color-cream-50: #f9f3e4;
+  --color-ivory: #fbf6ea;
+
+  --color-ink-900: #2c1a13;
+  --color-ink-700: #4a3630;
+  --color-ink-500: #75605a;
+  --color-ink-400: #94807a;
+
+  --font-display: 'CWY Currency', var(--font-playfair), 'Didot', 'Bodoni MT', 'Hoefler Text', Georgia,
+    serif;
+  --font-sans: 'CWY Currency', var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+
+  --text-hero: clamp(2.6rem, 12vw, 5.5rem);
+  --text-display: clamp(2rem, 7.5vw, 4.25rem);
+  --text-title: clamp(1.6rem, 4.6vw, 2.75rem);
+  --text-lede: clamp(1.05rem, 2.5vw, 1.35rem);
+
+  --radius-card: 2px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/**
+ * The rupee sign sits outside the latin subsets our self-hosted web fonts ship,
+ * and the browser would otherwise pull an ~84 KB Cyrillic subset over the wire
+ * to draw one glyph on every price. This face claims U+20B9 and nothing else,
+ * so the device's own font supplies the symbol while every other character
+ * falls straight through to the web font.
+ */
+@font-face {
+  font-family: 'CWY Currency';
+  font-style: normal;
+  font-weight: 100 900;
+  src:
+    local('Segoe UI'),
+    local('Roboto'),
+    local('Helvetica Neue'),
+    local('Noto Sans'),
+    local('Arial');
+  unicode-range: U+20B9;
+}
+
+/* ========================================================================== */
+
+:root {
+  --gutter: 1.25rem;
+  --header-h: 60px;
+  --rule: color-mix(in oklab, var(--color-wine-900) 14%, transparent);
+  color-scheme: light;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2.5rem;
+    --header-h: 76px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 4rem;
+  }
+}
+
+* {
+  min-width: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* The hero pins itself; anchoring should land below the fixed header. */
+  scroll-padding-top: calc(var(--header-h) + 8px);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* The hero pins itself; anchoring should land below the fixed header. */
+    scroll-padding-top: calc(var(--header-h) + 8px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-crimson-600);
+    color: var(--color-ivory);
+  }
+
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-crimson-500);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+}
+
+/* ==========================================================================
+   Cinematic hero
+   ========================================================================== */
+
+@layer components {
+/*
+ * The pinned hero opts *in* from JavaScript.
+ *
+ * Without JS the section stays a single screenful showing the static still,
+ * rather than leaving four screens of nothing to scroll through before the
+ * content starts.
+ */
+.hero-pin {
+  position: relative;
+  height: 78svh;
+}
+
+.hero-pin[data-hero-ready='true'] {
+  height: calc(100vh * var(--pin-screens, 5));
+  height: calc(100svh * var(--pin-screens, 5));
+}
+
+.hero-stage {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-wine-900);
+}
+
+.hero-pin[data-hero-ready='true'] > .hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+.hero-static {
+  position: relative;
+}
+
+.hero-static > .hero-stage {
+  height: 74svh;
+}
+
+  .hero-wordmark {
+    font-size: clamp(2.35rem, 11.4vw, 4.6rem);
+    letter-spacing: -0.02em;
+    text-shadow: 0 1px 44px rgb(20 4 10 / 0.5);
+  }
+
+  @media (min-width: 768px) {
+    .hero-wordmark {
+      font-size: clamp(3.4rem, 6.4vw, 6.2rem);
+    }
+  }
+
+/* Driven imperatively from the scroll handler â€” never through React state. */
+.hero-copy {
+  opacity: var(--copy-alpha, 1);
+  transform: translateY(var(--copy-shift, 0));
+  will-change: opacity, transform;
+}
+
+.hero-copy[data-gone] {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.hero-chapter {
+  opacity: var(--chapter-alpha, 0);
+  transform: translateY(var(--chapter-shift, 10px));
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+}
+
+@media (min-width: 768px) {
+  .hero-chapter {
+    font-size: 1.0625rem;
+  }
+}
+
+.hero-rail__fill {
+  height: calc(var(--progress, 0) * 100%);
+}
+
+/* The chapter rail and the skip control. Both are about the journey through the
+   sequence, so the closing card takes the stage and they step aside. Driven from
+   the same scroll handler as the rest of the hero. */
+.hero-bar {
+  transition: opacity 200ms var(--ease-out-soft), visibility 200ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bar {
+    transition: none;
+  }
+}
+
+/* Closing card. Driven from the scroll handler alongside the chapter and the
+   wordmark, so it costs no React state and no layout: two custom properties and
+   a visibility flip. */
+.hero-end {
+  opacity: var(--end-alpha, 0);
+  transform: translateY(var(--end-shift, 14px));
+  will-change: opacity, transform;
+}
+
+.hero-end[data-hidden] {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-end {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-end[data-hidden] {
+    display: none;
+  }
+}
+
+.hero-cue {
+  opacity: var(--copy-alpha, 1);
+}
+
+/* No scroll invitation when the sequence is not driving the hero — including
+   when JavaScript never arrives at all. */
+[data-hero-state='static'] .hero-cue,
+.hero-pin:not([data-hero-ready='true']) .hero-cue {
+  display: none;
+}
+
+.hero-cue__line {
+  position: relative;
+  display: block;
+  width: 2.25rem;
+  height: 1px;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--color-champagne-200) 28%, transparent);
+}
+
+.hero-cue__line::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 40%;
+  background: var(--color-champagne-200);
+  animation: cue-travel 2600ms var(--ease-out-soft) infinite;
+}
+
+@keyframes cue-travel {
+  0% {
+    transform: translateX(-110%);
+  }
+  55%,
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cue__line::after {
+    animation: none;
+    width: 100%;
+    opacity: 0.5;
+  }
+}
+
+.skip-intro {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms var(--ease-out-soft);
+}
+
+.skip-intro[data-visible='true'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Colour wash over the photography. Two compositions, chosen by the canvas
+   strategy, so the headline always lands on deep wine and the hands and the
+   work stay untouched. */
+.hero-wash {
+  --ink: 20 5 12;
+}
+
+.hero-wash[data-mode='band'] {
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgb(var(--ink) / 0.985) 0%,
+      rgb(var(--ink) / 0.975) 15%,
+      rgb(var(--ink) / 0.94) 22%,
+      rgb(var(--ink) / 0.78) 28%,
+      rgb(var(--ink) / 0.38) 34%,
+      rgb(var(--ink) / 0.12) 40%,
+      rgb(var(--ink) / 0) 47%
+    ),
+    linear-gradient(
+      to top,
+      rgb(var(--ink) / 0.985) 0%,
+      rgb(var(--ink) / 0.93) 9%,
+      rgb(var(--ink) / 0.5) 16%,
+      rgb(var(--ink) / 0) 26%
+    );
+}
+
+@media (min-width: 768px) {
+  .hero-wash[data-mode='band'] {
+    background-image:
+      linear-gradient(
+        to bottom,
+        rgb(var(--ink) / 0.94) 0%,
+        rgb(var(--ink) / 0.6) 24%,
+        rgb(var(--ink) / 0.16) 48%,
+        rgb(var(--ink) / 0) 60%
+      ),
+      linear-gradient(
+        to top,
+        rgb(var(--ink) / 0.95) 0%,
+        rgb(var(--ink) / 0.32) 15%,
+        rgb(var(--ink) / 0) 28%
+      );
+  }
+}
+
+.hero-wash[data-mode='cover'] {
+  background-image:
+    linear-gradient(
+      100deg,
+      rgb(var(--ink) / 0.94) 0%,
+      rgb(var(--ink) / 0.82) 26%,
+      rgb(var(--ink) / 0.34) 52%,
+      rgb(var(--ink) / 0.04) 74%
+    ),
+    linear-gradient(to top, rgb(var(--ink) / 0.8) 0%, rgb(var(--ink) / 0) 42%),
+    linear-gradient(to bottom, rgb(var(--ink) / 0.7) 0%, rgb(var(--ink) / 0) 22%);
+}
+/* ============================================================ structure */
+
+/* ------------------------------------------------------------- brand marks
+ *
+ * The three supplied identity artworks, emitted by `npm run assets:brand`.
+ *
+ * Marks are plain <img> rather than next/image on purpose: they are static
+ * brand assets under public/, they must not be re-optimised per request, and
+ * the header loads two of them (ink and champagne) so it can cross-fade
+ * between the light and dark header states without a second layout pass.
+ *
+ * Sizes come from the artwork's own aspect ratio, declared inline so the box is
+ * reserved before the file arrives and the header never reflows.
+ */
+.brand-mark {
+  display: block;
+  height: auto;
+  width: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.brand-mark--wordmark {
+  width: clamp(7.5rem, 30vw, 11.5rem);
+}
+
+.brand-mark--stamp {
+  width: clamp(4.5rem, 17vw, 6rem);
+}
+
+.brand-mark--seal {
+  width: clamp(3.25rem, 13vw, 4.25rem);
+}
+
+/* Header: both colourways in the DOM, the attribute selector cross-fades them
+   so switching header states costs no image request and no layout. */
+.brand-swap {
+  position: relative;
+  display: block;
+}
+
+.brand-swap > img {
+  transition: opacity 260ms var(--ease-out-soft);
+}
+
+header[data-scrolled='false'] .brand-swap > [data-brand-tone='ink'],
+header[data-scrolled='true'] .brand-swap > [data-brand-tone='champagne'] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-swap > img {
+    transition: none;
+  }
+}
+
+/* Decorative watermark behind a heading. Purely additive: it is aria-hidden and
+   sits under the type, so it never competes for attention or for a tap target. */
+.brand-watermark {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.1;
+  mix-blend-mode: multiply;
+}
+
+.brand-watermark--light {
+  opacity: 0.16;
+  mix-blend-mode: screen;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes menu-in {
+    from {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* The header floats over the hero in champagne, then becomes a solid bar. */
+header[data-scrolled='false'] {
+  color: var(--color-champagne-200);
+}
+
+header[data-scrolled='true'] {
+  color: var(--color-ink-900);
+  background: var(--color-cream-50);
+  border-bottom: 1px solid var(--rule);
+}
+
+.shell {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 90rem;
+  padding-inline: var(--gutter);
+}
+
+.shell--narrow {
+  max-width: 62rem;
+}
+
+.shell--wide {
+  max-width: 104rem;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+/* Editorial section label: 01 / MADE BY HAND */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ink-500);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: var(--color-crimson-500);
+}
+
+.eyebrow--light {
+  color: color-mix(in oklab, var(--color-champagne-200) 70%, transparent);
+}
+
+.eyebrow--light::before {
+  background: var(--color-champagne-300);
+}
+
+.lede {
+  font-size: var(--text-lede);
+  line-height: 1.65;
+  color: var(--color-ink-700);
+  max-width: 42ch;
+}
+
+.prose-brand p {
+  line-height: 1.75;
+  color: var(--color-ink-700);
+}
+
+.prose-brand p + p {
+  margin-top: 1.1em;
+}
+
+/* ------------------------------------------------------------------ buttons */
+
+.btn {
+  --btn-bg: var(--color-crimson-600);
+  --btn-fg: var(--color-ivory);
+  --btn-border: var(--color-crimson-600);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.6rem;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius-card);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 220ms var(--ease-out-soft),
+    color 220ms var(--ease-out-soft),
+    border-color 220ms var(--ease-out-soft),
+    transform 220ms var(--ease-out-soft);
+}
+
+.btn:hover:not(:disabled) {
+  --btn-bg: var(--color-crimson-700);
+  --btn-border: var(--color-crimson-700);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-ink-900);
+  --btn-border: color-mix(in oklab, var(--color-wine-900) 24%, transparent);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-crimson-600);
+  --btn-border: var(--color-crimson-600);
+}
+
+.btn--light {
+  --btn-bg: var(--color-champagne-200);
+  --btn-fg: var(--color-wine-900);
+  --btn-border: var(--color-champagne-200);
+}
+
+.btn--light:hover:not(:disabled) {
+  --btn-bg: var(--color-ivory);
+  --btn-border: var(--color-ivory);
+}
+
+.btn--outline-light {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-champagne-200);
+  --btn-border: color-mix(in oklab, var(--color-champagne-200) 40%, transparent);
+}
+
+.btn--outline-light:hover:not(:disabled) {
+  --btn-bg: color-mix(in oklab, var(--color-champagne-200) 12%, transparent);
+  --btn-fg: var(--color-ivory);
+  --btn-border: var(--color-champagne-200);
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn--sm {
+  padding: 0.6rem 1.05rem;
+  font-size: 0.6875rem;
+}
+
+/* Text link with a hairline that draws in from the left. */
+.link-rule {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+
+.link-rule::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.001);
+  transform-origin: left;
+  transition: transform 320ms var(--ease-out-soft);
+}
+
+.link-rule:hover::after,
+.link-rule:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ------------------------------------------------------------------- focus */
+
+.on-wine :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline-color: var(--color-champagne-300);
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 200;
+  padding: 0.7rem 1rem;
+  background: var(--color-wine-900);
+  color: var(--color-ivory);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 180ms var(--ease-out-soft);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* -------------------------------------------------------------------- forms */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field > label,
+.fieldset-legend {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-500);
+}
+
+.field .hint {
+  font-size: 0.8125rem;
+  color: var(--color-ink-400);
+}
+
+.field .error {
+  font-size: 0.8125rem;
+  color: var(--color-crimson-600);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  background: var(--color-ivory);
+  border: 1px solid color-mix(in oklab, var(--color-wine-900) 18%, transparent);
+  border-radius: var(--radius-card);
+  color: var(--color-ink-900);
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition:
+    border-color 180ms var(--ease-out-soft),
+    background-color 180ms var(--ease-out-soft);
+}
+
+.textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-ink-500) 50%),
+    linear-gradient(135deg, var(--color-ink-500) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 55%,
+    calc(100% - 13px) 55%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 2.5rem;
+}
+
+.input:hover,
+.textarea:hover,
+.select:hover {
+  border-color: color-mix(in oklab, var(--color-wine-900) 32%, transparent);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: 2px solid var(--color-crimson-500);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.input[aria-invalid='true'],
+.textarea[aria-invalid='true'],
+.select[aria-invalid='true'] {
+  border-color: var(--color-crimson-500);
+  background: color-mix(in oklab, var(--color-crimson-500) 5%, var(--color-ivory));
+}
+
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* -------------------------------------------------------------- editorial */
+
+.media-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-paper-200);
+}
+
+.media-frame > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ease-out-soft);
+}
+
+.media-frame--zoom:hover > img {
+  transform: scale(1.035);
+}
+
+.tint-wine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    170deg,
+    color-mix(in oklab, var(--color-wine-900) 20%, transparent) 0%,
+    transparent 45%,
+    color-mix(in oklab, var(--color-wine-900) 72%, transparent) 100%
+  );
+  pointer-events: none;
+}
+
+/* Very light film grain. Sits above photography, costs one composited layer. */
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.hairline-grid > * + * {
+  border-top: 1px solid var(--rule);
+}
+
+@media (min-width: 768px) {
+  .hairline-grid--md > * + * {
+    border-top: 0;
+    border-left: 1px solid var(--rule);
+  }
+}
+
+/* ------------------------------------------------------------------ motion */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 760ms var(--ease-out-soft),
+    transform 760ms var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.on-wine {
+  color: var(--color-champagne-200);
+}
+
+.on-wine .lede,
+.on-wine .prose-brand p {
+  color: color-mix(in oklab, var(--color-champagne-200) 78%, transparent);
+}
+
+.on-wine .eyebrow {
+  color: color-mix(in oklab, var(--color-champagne-300) 62%, transparent);
+}
+
+.on-wine .input,
+.on-wine .textarea,
+.on-wine .select {
+  background: color-mix(in oklab, var(--color-wine-950) 55%, transparent);
+  border-color: color-mix(in oklab, var(--color-champagne-200) 22%, transparent);
+  color: var(--color-champagne-100, var(--color-ivory));
+}
+
+.on-wine .field > label {
+  color: color-mix(in oklab, var(--color-champagne-300) 70%, transparent);
+}
+
+.on-wine .input::placeholder,
+.on-wine .textarea::placeholder {
+  color: color-mix(in oklab, var(--color-champagne-200) 38%, transparent);
+}
+
+} /* end @layer components */

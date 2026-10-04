@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "id": "hero-cuddle-with-yarn",
+  "fps": 24,
+  "generatedAt": "2026-10-04T13:17:37.271Z",
+  "poster": "/media/hero-poster-960.webp",
+  "stills": {
+    "stitch": "/media/still-stitch-1280.webp",
+    "stitchMid": "/media/still-stitch-mid-1280.webp",
+    "flower": "/media/still-flower-1280.webp",
+    "flowerTight": "/media/still-flower-tight-1280.webp",
+    "purse": "/media/still-purse-1280.webp",
+    "keychain": "/media/still-purse-keychain-1280.webp",
+    "collection": "/media/still-collection-1280.webp"
+  },
+  "sets": {
+    "landscape": {
+      "width": 1920,
+      "height": 1080,
+      "count": 271,
+      "startIndex": 1,
+      "fps": 24,
+      "path": "/sequences/hero/{w}/f_{index}.webp",
+      "widths": [
+        720,
+        1280,
+        1920
+      ],
+      "focal": {
+        "x": 0.5,
+        "y": 0.47
+      },
+      "poster": "/media/hero-poster-960.webp"
+    }
+  }
+}

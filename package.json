@@ -1,0 +1,43 @@
+{
+  "name": "cuddle-with-yarn",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cuddle With Yarn — handmade crochet atelier. Cinematic scroll-controlled hero + headless commerce.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "assets:frames": "node scripts/build-frames.mjs",
+    "assets:stills": "node scripts/build-stills.mjs",
+    "assets:brand": "node scripts/build-brand.mjs",
+    "assets:products": "node scripts/build-products.mjs",
+    "assets:check": "node scripts/check-assets.mjs",
+    "assets": "npm run assets:brand && npm run assets:frames && npm run assets:products && npm run assets:stills && npm run assets:check",
+    "db:seed": "node scripts/seed-supabase.mjs"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.49.0",
+    "next": "16.3.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "eslint": "^9.35.0",
+    "eslint-config-next": "16.3.8",
+    "puppeteer-core": "^25.12.0",
+    "sharp": "^0.34.3",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}
